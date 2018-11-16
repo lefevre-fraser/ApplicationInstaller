@@ -1,6 +1,6 @@
 ﻿namespace ApplicationInstaller
 {
-    partial class Form1
+    partial class MainUI
     {
         /// <summary>
         /// Required designer variable.
@@ -29,13 +29,20 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openApplicationFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveCurrentConfigurationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.addProgramToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.selectAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.addToQueueToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.undoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.whatAmIDoingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.queueList = new System.Windows.Forms.ListBox();
             this.selectInstallList = new System.Windows.Forms.ListBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -44,14 +51,11 @@
             this.btnRemoveQueue = new System.Windows.Forms.Button();
             this.btnInstall = new System.Windows.Forms.Button();
             this.btnuninstall = new System.Windows.Forms.Button();
-            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.openApplicationFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.addProgramToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.removeProgramToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.whatAmIDoingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.saveCurrentConfigurationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.btnMoveUp = new System.Windows.Forms.Button();
             this.btnMoveDown = new System.Windows.Forms.Button();
+            this.addProgramToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.editProgramsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.removeProgramToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -83,14 +87,72 @@
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "File";
             // 
+            // openApplicationFileToolStripMenuItem
+            // 
+            this.openApplicationFileToolStripMenuItem.Name = "openApplicationFileToolStripMenuItem";
+            this.openApplicationFileToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
+            this.openApplicationFileToolStripMenuItem.Size = new System.Drawing.Size(258, 22);
+            this.openApplicationFileToolStripMenuItem.Text = "Open Application File";
+            this.openApplicationFileToolStripMenuItem.Click += new System.EventHandler(this.openApplicationFileToolStripMenuItem_Click);
+            // 
+            // saveCurrentConfigurationToolStripMenuItem
+            // 
+            this.saveCurrentConfigurationToolStripMenuItem.Name = "saveCurrentConfigurationToolStripMenuItem";
+            this.saveCurrentConfigurationToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
+            this.saveCurrentConfigurationToolStripMenuItem.Size = new System.Drawing.Size(258, 22);
+            this.saveCurrentConfigurationToolStripMenuItem.Text = "Save Current Configuration";
+            // 
+            // aboutToolStripMenuItem
+            // 
+            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(258, 22);
+            this.aboutToolStripMenuItem.Text = "About";
+            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
+            // 
             // editToolStripMenuItem
             // 
             this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.addProgramToolStripMenuItem,
-            this.removeProgramToolStripMenuItem});
+            this.selectAllToolStripMenuItem,
+            this.addToQueueToolStripMenuItem,
+            this.undoToolStripMenuItem});
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
             this.editToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
             this.editToolStripMenuItem.Text = "Edit";
+            // 
+            // addProgramToolStripMenuItem
+            // 
+            this.addProgramToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.addProgramToolStripMenuItem1,
+            this.editProgramsToolStripMenuItem,
+            this.removeProgramToolStripMenuItem1});
+            this.addProgramToolStripMenuItem.Name = "addProgramToolStripMenuItem";
+            this.addProgramToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
+            this.addProgramToolStripMenuItem.Text = "Program Management";
+            // 
+            // selectAllToolStripMenuItem
+            // 
+            this.selectAllToolStripMenuItem.Name = "selectAllToolStripMenuItem";
+            this.selectAllToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.A)));
+            this.selectAllToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
+            this.selectAllToolStripMenuItem.Text = "Select All";
+            this.selectAllToolStripMenuItem.Click += new System.EventHandler(this.selectAllToolStripMenuItem_Click);
+            // 
+            // addToQueueToolStripMenuItem
+            // 
+            this.addToQueueToolStripMenuItem.Name = "addToQueueToolStripMenuItem";
+            this.addToQueueToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Q)));
+            this.addToQueueToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
+            this.addToQueueToolStripMenuItem.Text = "Add To Queue";
+            this.addToQueueToolStripMenuItem.Click += new System.EventHandler(this.btnAddQueue_Click);
+            // 
+            // undoToolStripMenuItem
+            // 
+            this.undoToolStripMenuItem.Name = "undoToolStripMenuItem";
+            this.undoToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
+            this.undoToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
+            this.undoToolStripMenuItem.Text = "Undo Queue Operation";
+            this.undoToolStripMenuItem.Click += new System.EventHandler(this.undoToolStripMenuItem_Click);
             // 
             // viewToolStripMenuItem
             // 
@@ -105,6 +167,13 @@
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
             this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.helpToolStripMenuItem.Text = "Help";
+            // 
+            // whatAmIDoingToolStripMenuItem
+            // 
+            this.whatAmIDoingToolStripMenuItem.Name = "whatAmIDoingToolStripMenuItem";
+            this.whatAmIDoingToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
+            this.whatAmIDoingToolStripMenuItem.Text = "What am I doing?";
+            this.whatAmIDoingToolStripMenuItem.Click += new System.EventHandler(this.whatAmIDoingToolStripMenuItem_Click);
             // 
             // queueList
             // 
@@ -183,49 +252,6 @@
             this.btnuninstall.UseVisualStyleBackColor = true;
             this.btnuninstall.Click += new System.EventHandler(this.btnUninstall_Click);
             // 
-            // aboutToolStripMenuItem
-            // 
-            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(258, 22);
-            this.aboutToolStripMenuItem.Text = "About";
-            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
-            // 
-            // openApplicationFileToolStripMenuItem
-            // 
-            this.openApplicationFileToolStripMenuItem.Name = "openApplicationFileToolStripMenuItem";
-            this.openApplicationFileToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.openApplicationFileToolStripMenuItem.Size = new System.Drawing.Size(258, 22);
-            this.openApplicationFileToolStripMenuItem.Text = "Open Application File";
-            this.openApplicationFileToolStripMenuItem.Click += new System.EventHandler(this.openApplicationFileToolStripMenuItem_Click);
-            // 
-            // addProgramToolStripMenuItem
-            // 
-            this.addProgramToolStripMenuItem.Name = "addProgramToolStripMenuItem";
-            this.addProgramToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.E)));
-            this.addProgramToolStripMenuItem.Size = new System.Drawing.Size(207, 22);
-            this.addProgramToolStripMenuItem.Text = "Add Program";
-            // 
-            // removeProgramToolStripMenuItem
-            // 
-            this.removeProgramToolStripMenuItem.Name = "removeProgramToolStripMenuItem";
-            this.removeProgramToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.R)));
-            this.removeProgramToolStripMenuItem.Size = new System.Drawing.Size(207, 22);
-            this.removeProgramToolStripMenuItem.Text = "Remove Program";
-            // 
-            // whatAmIDoingToolStripMenuItem
-            // 
-            this.whatAmIDoingToolStripMenuItem.Name = "whatAmIDoingToolStripMenuItem";
-            this.whatAmIDoingToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.whatAmIDoingToolStripMenuItem.Text = "What am I doing?";
-            this.whatAmIDoingToolStripMenuItem.Click += new System.EventHandler(this.whatAmIDoingToolStripMenuItem_Click);
-            // 
-            // saveCurrentConfigurationToolStripMenuItem
-            // 
-            this.saveCurrentConfigurationToolStripMenuItem.Name = "saveCurrentConfigurationToolStripMenuItem";
-            this.saveCurrentConfigurationToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.saveCurrentConfigurationToolStripMenuItem.Size = new System.Drawing.Size(258, 22);
-            this.saveCurrentConfigurationToolStripMenuItem.Text = "Save Current Configuration";
-            // 
             // btnMoveUp
             // 
             this.btnMoveUp.Location = new System.Drawing.Point(642, 354);
@@ -246,7 +272,30 @@
             this.btnMoveDown.UseVisualStyleBackColor = true;
             this.btnMoveDown.Click += new System.EventHandler(this.btnMoveDown_Click);
             // 
-            // Form1
+            // addProgramToolStripMenuItem1
+            // 
+            this.addProgramToolStripMenuItem1.Name = "addProgramToolStripMenuItem1";
+            this.addProgramToolStripMenuItem1.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.P)));
+            this.addProgramToolStripMenuItem1.Size = new System.Drawing.Size(239, 22);
+            this.addProgramToolStripMenuItem1.Text = "Add Program";
+            this.addProgramToolStripMenuItem1.Click += new System.EventHandler(this.addProgramToolStripMenuItem1_Click);
+            // 
+            // editProgramsToolStripMenuItem
+            // 
+            this.editProgramsToolStripMenuItem.Name = "editProgramsToolStripMenuItem";
+            this.editProgramsToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.E)));
+            this.editProgramsToolStripMenuItem.Size = new System.Drawing.Size(239, 22);
+            this.editProgramsToolStripMenuItem.Text = "Edit Program";
+            // 
+            // removeProgramToolStripMenuItem1
+            // 
+            this.removeProgramToolStripMenuItem1.Name = "removeProgramToolStripMenuItem1";
+            this.removeProgramToolStripMenuItem1.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.R)));
+            this.removeProgramToolStripMenuItem1.Size = new System.Drawing.Size(239, 22);
+            this.removeProgramToolStripMenuItem1.Text = "Remove Program";
+            // 
+            // MainUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -262,9 +311,8 @@
             this.Controls.Add(this.selectInstallList);
             this.Controls.Add(this.queueList);
             this.Controls.Add(this.menuStrip1);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
-            this.Name = "Form1";
+            this.Name = "MainUI";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Application Installer";
             this.menuStrip1.ResumeLayout(false);
@@ -293,11 +341,16 @@
         private System.Windows.Forms.ToolStripMenuItem openApplicationFileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem addProgramToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem removeProgramToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem whatAmIDoingToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveCurrentConfigurationToolStripMenuItem;
         private System.Windows.Forms.Button btnMoveUp;
         private System.Windows.Forms.Button btnMoveDown;
+        private System.Windows.Forms.ToolStripMenuItem selectAllToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem addToQueueToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem undoToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem addProgramToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem editProgramsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem removeProgramToolStripMenuItem1;
     }
 }
 

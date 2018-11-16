@@ -10,5 +10,6 @@ namespace ApplicationInstaller
     {
         void Function(string PackageName, Task task);
         void Function(bool Skip, bool Cancel);
+        bool Function(string Name, string Path, string Install, string Uninstall);
     }
 }

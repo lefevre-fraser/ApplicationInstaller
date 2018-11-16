@@ -10,14 +10,14 @@ using System.Windows.Forms;
 
 namespace ApplicationInstaller
 {
-    public partial class Form2 : Form
+    public partial class ProgressBarUI : Form
     {
-        public Form2()
+        public ProgressBarUI()
         {
             InitializeComponent();
         }
 
-        public Form2(string PackageName, bool install) : this()
+        public ProgressBarUI(string PackageName, bool install) : this()
         {
             ProgressBar.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
             ProgressBar.MarqueeAnimationSpeed = 50;

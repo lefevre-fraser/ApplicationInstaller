@@ -13,17 +13,20 @@ using System.Threading;
 
 namespace ApplicationInstaller
 {
-    public partial class Form1 : Form, CallBack
+    
+    public partial class MainUI : Form, CallBack
     {
         List<string> programName = new List<string>();
         List<string> filePath = new List<string>();
         List<string> silentInstall = new List<string>();
         List<string> silentUninstall = new List<string>();
+        List<Pair> UndoBranch = new List<Pair>();
+
         bool Skip = false;
         bool Cancel = false;
         string location = "Applications.csv";
 
-        public Form1()
+        public MainUI()
         {
             InitializeComponent();
             populateList();
@@ -58,6 +61,7 @@ namespace ApplicationInstaller
         //On click, grab any selected items from the first list and move them to the other one.
         private void btnAddQueue_Click(object sender, EventArgs e)
         {
+            UndoBranch.Add(new Pair(true, queueList.Items));
             foreach (int index in selectInstallList.SelectedIndices)
             {
                 if (!queueList.Items.Contains(selectInstallList.Items[index]))
@@ -69,6 +73,7 @@ namespace ApplicationInstaller
 
         private void btnRemoveQueue_Click(object sender, EventArgs e)
         {
+            UndoBranch.Add(new Pair(false, queueList.Items));
             List<int> mylist = (queueList.SelectedIndices.Cast<int>().ToList());
             mylist.Reverse();
             foreach (int index in mylist)
@@ -101,7 +106,7 @@ namespace ApplicationInstaller
                 }
 
                 Thread thread = new Thread(() => {
-                    Form2 progress = new Form2(PackageName, true);
+                    ProgressBarUI progress = new ProgressBarUI(PackageName, true);
                     Application.Run(progress);
                 });
                 thread.Start();
@@ -143,7 +148,7 @@ namespace ApplicationInstaller
                 }
 
                 Thread thread = new Thread(() => {
-                    Form2 progress = new Form2(PackageName, false);
+                    ProgressBarUI progress = new ProgressBarUI(PackageName, false);
                     Application.Run(progress);
                 });
                 thread.Start();
@@ -204,9 +209,9 @@ namespace ApplicationInstaller
             //Make sure the item is not the first item in the list.
             //If all criteria are met, swap the item with the one above it
             if (queueList.SelectedIndices.Count < 1)
-                MessageBox.Show("WARNING:\nYou must select an\nitem to use this feature.");
+                MessageBox.Show("WARNING:\nYou must select a queued\nitem to use this feature.");
             else if (queueList.SelectedIndices.Count > 1)
-                MessageBox.Show("WARNING:\nOnly one program may be\nselected to use this feature.");
+                MessageBox.Show("WARNING:\nOnly one queued program may be\nselected to use this feature.");
             else if (queueList.SelectedIndex != 0) //Make sure this isn't the first object before we move it
             {
                 int from = queueList.SelectedIndices[0];
@@ -227,9 +232,9 @@ namespace ApplicationInstaller
             //Make sure the item is not the last item in the list.
             //If all criteria are met, swap the item with the one below it
             if (queueList.SelectedIndices.Count < 1)
-                MessageBox.Show("WARNING:\nYou must select an\nitem to use this feature.");
+                MessageBox.Show("WARNING:\nYou must select a queued\nitem to use this feature.");
             else if (queueList.SelectedIndices.Count > 1)
-                MessageBox.Show("WARNING:\nOnly one program may be\nselected to use this feature.");
+                MessageBox.Show("WARNING:\nOnly one queued program may be\nselected to use this feature.");
             else if (queueList.SelectedIndex != queueList.Items.Count - 1) //Make sure this isn't the last object before we move it
             {
                 int from = queueList.SelectedIndices[0];
@@ -242,5 +247,79 @@ namespace ApplicationInstaller
                 queueList.SetSelected(from, true);
             }
         }
+
+        private void selectAllToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (queueList.ContainsFocus)
+            {
+                int size = queueList.Items.Count;
+
+                for (int i = 0; i < size; i++)
+                {
+                    queueList.SetSelected(i, true);
+                }
+            }
+            else if (selectInstallList.ContainsFocus)
+            {
+                int size = selectInstallList.Items.Count;
+
+                for (int i = 0; i < size; i++)
+                {
+                    selectInstallList.SetSelected(i, true);
+                }
+            }
+            
+        }
+
+        private void undoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (UndoBranch.Count == 0)
+                return;
+            queueList.Items.Clear();
+            foreach(string pkgName in UndoBranch.Last<Pair>().QueueList)
+            {
+                queueList.Items.Add(pkgName);
+            }
+            UndoBranch.RemoveAt(UndoBranch.Count - 1);
+        }
+
+        private void addProgramToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            AddApplication addApplication = new AddApplication();
+            addApplication._callBack = this;
+            addApplication.ShowDialog();
+        }
+
+        bool CallBack.Function(string Name, string Path, string Install, string Uninstall) {
+
+            if (!this.programName.Contains(Name))
+            {
+                this.programName.Add(Name);
+                this.filePath.Add(Path);
+                this.silentInstall.Add(Install);
+                this.silentUninstall.Add(Uninstall);
+
+                selectInstallList.Items.Add(Name);
+                return true;
+            }
+            else
+            {
+                MessageBox.Show("Application name already in list");
+                return false;
+            }
+        }
+    }
+
+    class Pair
+    {
+        public Pair(bool Add, ListBox.ObjectCollection QueueList)
+        {
+            this.Add = Add;
+            this.QueueList = QueueList.Cast<string>().ToList();
+        }
+        public bool Add;
+        public List<string> QueueList;
     }
 }
+
+
