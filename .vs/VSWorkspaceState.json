@@ -1,6 +1,8 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\ApplicationInstaller"
   ],
+  "SelectedNode": "\\ApplicationInstaller\\Program.cs",
   "PreviewInSolutionExplorer": false
 }

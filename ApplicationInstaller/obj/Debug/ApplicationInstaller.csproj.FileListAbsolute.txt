@@ -20,3 +20,15 @@ C:\Users\labfraser\Desktop\SilentInstaller\ApplicationInstaller\ApplicationInsta
 C:\Users\labfraser\Desktop\SilentInstaller\ApplicationInstaller\ApplicationInstaller\bin\Debug\ApplicationInstaller.exe
 C:\Users\labfraser\Desktop\SilentInstaller\ApplicationInstaller\ApplicationInstaller\bin\Debug\ApplicationInstaller.pdb
 C:\Users\labfraser\Desktop\SilentInstaller\ApplicationInstaller\ApplicationInstaller\obj\Debug\ApplicationInstaller.csprojAssemblyReference.cache
+C:\Users\labjeff\Source\Repos\lefevre-fraser\ApplicationInstalle2r\ApplicationInstaller\bin\Debug\ApplicationInstaller.exe.config
+C:\Users\labjeff\Source\Repos\lefevre-fraser\ApplicationInstalle2r\ApplicationInstaller\bin\Debug\ApplicationInstaller.exe
+C:\Users\labjeff\Source\Repos\lefevre-fraser\ApplicationInstalle2r\ApplicationInstaller\bin\Debug\ApplicationInstaller.pdb
+C:\Users\labjeff\Source\Repos\lefevre-fraser\ApplicationInstalle2r\ApplicationInstaller\obj\Debug\ApplicationInstaller.csprojAssemblyReference.cache
+C:\Users\labjeff\Source\Repos\lefevre-fraser\ApplicationInstalle2r\ApplicationInstaller\obj\Debug\ApplicationInstaller.ConfirmationBox.resources
+C:\Users\labjeff\Source\Repos\lefevre-fraser\ApplicationInstalle2r\ApplicationInstaller\obj\Debug\ApplicationInstaller.Form1.resources
+C:\Users\labjeff\Source\Repos\lefevre-fraser\ApplicationInstalle2r\ApplicationInstaller\obj\Debug\ApplicationInstaller.Form2.resources
+C:\Users\labjeff\Source\Repos\lefevre-fraser\ApplicationInstalle2r\ApplicationInstaller\obj\Debug\ApplicationInstaller.Properties.Resources.resources
+C:\Users\labjeff\Source\Repos\lefevre-fraser\ApplicationInstalle2r\ApplicationInstaller\obj\Debug\ApplicationInstaller.csproj.GenerateResource.cache
+C:\Users\labjeff\Source\Repos\lefevre-fraser\ApplicationInstalle2r\ApplicationInstaller\obj\Debug\ApplicationInstaller.csproj.CoreCompileInputs.cache
+C:\Users\labjeff\Source\Repos\lefevre-fraser\ApplicationInstalle2r\ApplicationInstaller\obj\Debug\ApplicationInstaller.exe
+C:\Users\labjeff\Source\Repos\lefevre-fraser\ApplicationInstalle2r\ApplicationInstaller\obj\Debug\ApplicationInstaller.pdb
