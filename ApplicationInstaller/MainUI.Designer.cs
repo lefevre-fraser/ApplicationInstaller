@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainUI));
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -37,6 +38,9 @@
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addProgramToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.addProgramToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.editProgramsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.removeProgramToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.selectAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addToQueueToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.undoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -53,9 +57,6 @@
             this.btnuninstall = new System.Windows.Forms.Button();
             this.btnMoveUp = new System.Windows.Forms.Button();
             this.btnMoveDown = new System.Windows.Forms.Button();
-            this.addProgramToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.editProgramsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.removeProgramToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -129,6 +130,30 @@
             this.addProgramToolStripMenuItem.Name = "addProgramToolStripMenuItem";
             this.addProgramToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
             this.addProgramToolStripMenuItem.Text = "Program Management";
+            // 
+            // addProgramToolStripMenuItem1
+            // 
+            this.addProgramToolStripMenuItem1.Name = "addProgramToolStripMenuItem1";
+            this.addProgramToolStripMenuItem1.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.P)));
+            this.addProgramToolStripMenuItem1.Size = new System.Drawing.Size(239, 22);
+            this.addProgramToolStripMenuItem1.Text = "Add Program";
+            this.addProgramToolStripMenuItem1.Click += new System.EventHandler(this.addProgramToolStripMenuItem1_Click);
+            // 
+            // editProgramsToolStripMenuItem
+            // 
+            this.editProgramsToolStripMenuItem.Name = "editProgramsToolStripMenuItem";
+            this.editProgramsToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.E)));
+            this.editProgramsToolStripMenuItem.Size = new System.Drawing.Size(239, 22);
+            this.editProgramsToolStripMenuItem.Text = "Edit Program";
+            this.editProgramsToolStripMenuItem.Click += new System.EventHandler(this.editProgramsToolStripMenuItem_Click);
+            // 
+            // removeProgramToolStripMenuItem1
+            // 
+            this.removeProgramToolStripMenuItem1.Name = "removeProgramToolStripMenuItem1";
+            this.removeProgramToolStripMenuItem1.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.R)));
+            this.removeProgramToolStripMenuItem1.Size = new System.Drawing.Size(239, 22);
+            this.removeProgramToolStripMenuItem1.Text = "Remove Program";
             // 
             // selectAllToolStripMenuItem
             // 
@@ -272,29 +297,6 @@
             this.btnMoveDown.UseVisualStyleBackColor = true;
             this.btnMoveDown.Click += new System.EventHandler(this.btnMoveDown_Click);
             // 
-            // addProgramToolStripMenuItem1
-            // 
-            this.addProgramToolStripMenuItem1.Name = "addProgramToolStripMenuItem1";
-            this.addProgramToolStripMenuItem1.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.P)));
-            this.addProgramToolStripMenuItem1.Size = new System.Drawing.Size(239, 22);
-            this.addProgramToolStripMenuItem1.Text = "Add Program";
-            this.addProgramToolStripMenuItem1.Click += new System.EventHandler(this.addProgramToolStripMenuItem1_Click);
-            // 
-            // editProgramsToolStripMenuItem
-            // 
-            this.editProgramsToolStripMenuItem.Name = "editProgramsToolStripMenuItem";
-            this.editProgramsToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.E)));
-            this.editProgramsToolStripMenuItem.Size = new System.Drawing.Size(239, 22);
-            this.editProgramsToolStripMenuItem.Text = "Edit Program";
-            // 
-            // removeProgramToolStripMenuItem1
-            // 
-            this.removeProgramToolStripMenuItem1.Name = "removeProgramToolStripMenuItem1";
-            this.removeProgramToolStripMenuItem1.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
-            | System.Windows.Forms.Keys.R)));
-            this.removeProgramToolStripMenuItem1.Size = new System.Drawing.Size(239, 22);
-            this.removeProgramToolStripMenuItem1.Text = "Remove Program";
-            // 
             // MainUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -311,6 +313,7 @@
             this.Controls.Add(this.selectInstallList);
             this.Controls.Add(this.queueList);
             this.Controls.Add(this.menuStrip1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainUI";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;

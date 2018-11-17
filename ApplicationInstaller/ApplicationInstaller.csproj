@@ -85,11 +85,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AddApplication.cs">
+    <Compile Include="ApplicationWizard.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AddApplication.Designer.cs">
-      <DependentUpon>AddApplication.cs</DependentUpon>
+    <Compile Include="ApplicationWizard.Designer.cs">
+      <DependentUpon>ApplicationWizard.cs</DependentUpon>
     </Compile>
     <Compile Include="RunningTask.cs" />
     <Compile Include="ConfirmationBox.cs">
@@ -113,8 +113,8 @@
     <Compile Include="CallBack.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="AddApplication.resx">
-      <DependentUpon>AddApplication.cs</DependentUpon>
+    <EmbeddedResource Include="ApplicationWizard.resx">
+      <DependentUpon>ApplicationWizard.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ConfirmationBox.resx">
       <DependentUpon>ConfirmationBox.cs</DependentUpon>

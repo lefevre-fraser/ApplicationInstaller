@@ -285,28 +285,58 @@ namespace ApplicationInstaller
 
         private void addProgramToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            AddApplication addApplication = new AddApplication();
+            ApplicationWizard addApplication = new ApplicationWizard();
             addApplication._callBack = this;
             addApplication.ShowDialog();
         }
 
-        bool CallBack.Function(string Name, string Path, string Install, string Uninstall) {
+        private void editProgramsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string PackageName = (string)selectInstallList.SelectedItem;
+            int index = programName.IndexOf(PackageName);
+            string path = filePath[index];
+            string install = silentInstall[index];
+            string uninstall = silentUninstall[index];
 
-            if (!this.programName.Contains(Name))
+            ApplicationWizard editApplication = new ApplicationWizard(index, PackageName, path, install, uninstall);
+            editApplication._callBack = this;
+            editApplication.ShowDialog();
+        }
+
+        bool CallBack.Function(bool Edit, int Index, string Name, string Path, string Install, string Uninstall)
+        {
+            if (Name == "")
             {
+                MessageBox.Show("Must enter an Application Name");
+                return false;
+            }
+
+            if (this.programName.Contains(Name) && !Edit)
+            {
+                MessageBox.Show("Application name already in list");
+                return false;
+            }
+
+            if (!Edit)
+            {
+                selectInstallList.Items.Add(Name);
                 this.programName.Add(Name);
                 this.filePath.Add(Path);
                 this.silentInstall.Add(Install);
                 this.silentUninstall.Add(Uninstall);
 
-                selectInstallList.Items.Add(Name);
                 return true;
             }
-            else
-            {
-                MessageBox.Show("Application name already in list");
-                return false;
-            }
+
+            string OldName = this.programName[Index];
+            selectInstallList.Items.Remove(OldName);
+            selectInstallList.Items.Add(Name);
+            this.programName[Index] = Name;
+            this.filePath[Index] = Path;
+            this.silentInstall[Index] = Install;
+            this.silentUninstall[Index] = Uninstall;
+
+            return true;
         }
     }
 

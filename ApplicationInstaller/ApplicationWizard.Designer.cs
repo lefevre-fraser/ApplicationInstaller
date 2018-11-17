@@ -1,6 +1,6 @@
 ﻿namespace ApplicationInstaller
 {
-    partial class AddApplication
+    partial class ApplicationWizard
     {
         /// <summary>
         /// Required designer variable.
@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ApplicationWizard));
             this.NameLabel = new System.Windows.Forms.Label();
             this.PkgNameTxtBox = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -35,8 +36,8 @@
             this.BtnFolderBrowse = new System.Windows.Forms.Button();
             this.InstallProgTxtBox = new System.Windows.Forms.TextBox();
             this.LabelIProgram = new System.Windows.Forms.Label();
-            this.btnInstallBrowse = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
+            this.BtnInstallBrowse = new System.Windows.Forms.Button();
+            this.BtnUninstallBrowse = new System.Windows.Forms.Button();
             this.LabelUProgram = new System.Windows.Forms.Label();
             this.UninstallProgTxtBox = new System.Windows.Forms.TextBox();
             this.btnCancel = new System.Windows.Forms.Button();
@@ -101,23 +102,25 @@
             this.LabelIProgram.TabIndex = 6;
             this.LabelIProgram.Text = "Installation Program";
             // 
-            // btnInstallBrowse
+            // BtnInstallBrowse
             // 
-            this.btnInstallBrowse.Location = new System.Drawing.Point(577, 89);
-            this.btnInstallBrowse.Name = "btnInstallBrowse";
-            this.btnInstallBrowse.Size = new System.Drawing.Size(75, 23);
-            this.btnInstallBrowse.TabIndex = 7;
-            this.btnInstallBrowse.Text = "Browse...";
-            this.btnInstallBrowse.UseVisualStyleBackColor = true;
+            this.BtnInstallBrowse.Location = new System.Drawing.Point(577, 89);
+            this.BtnInstallBrowse.Name = "BtnInstallBrowse";
+            this.BtnInstallBrowse.Size = new System.Drawing.Size(75, 23);
+            this.BtnInstallBrowse.TabIndex = 7;
+            this.BtnInstallBrowse.Text = "Browse...";
+            this.BtnInstallBrowse.UseVisualStyleBackColor = true;
+            this.BtnInstallBrowse.Click += new System.EventHandler(this.FileBrowse_Click);
             // 
-            // button1
+            // BtnUninstallBrowse
             // 
-            this.button1.Location = new System.Drawing.Point(577, 129);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 10;
-            this.button1.Text = "Browse...";
-            this.button1.UseVisualStyleBackColor = true;
+            this.BtnUninstallBrowse.Location = new System.Drawing.Point(577, 129);
+            this.BtnUninstallBrowse.Name = "BtnUninstallBrowse";
+            this.BtnUninstallBrowse.Size = new System.Drawing.Size(75, 23);
+            this.BtnUninstallBrowse.TabIndex = 10;
+            this.BtnUninstallBrowse.Text = "Browse...";
+            this.BtnUninstallBrowse.UseVisualStyleBackColor = true;
+            this.BtnUninstallBrowse.Click += new System.EventHandler(this.FileBrowse_Click);
             // 
             // LabelUProgram
             // 
@@ -137,6 +140,7 @@
             // 
             // btnCancel
             // 
+            this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnCancel.Location = new System.Drawing.Point(496, 173);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
@@ -155,17 +159,19 @@
             this.btnSubmit.UseVisualStyleBackColor = true;
             this.btnSubmit.Click += new System.EventHandler(this.btnSubmit_Click);
             // 
-            // AddApplication
+            // ApplicationWizard
             // 
+            this.AcceptButton = this.btnSubmit;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.btnCancel;
             this.ClientSize = new System.Drawing.Size(678, 205);
             this.Controls.Add(this.btnSubmit);
             this.Controls.Add(this.btnCancel);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.BtnUninstallBrowse);
             this.Controls.Add(this.LabelUProgram);
             this.Controls.Add(this.UninstallProgTxtBox);
-            this.Controls.Add(this.btnInstallBrowse);
+            this.Controls.Add(this.BtnInstallBrowse);
             this.Controls.Add(this.LabelIProgram);
             this.Controls.Add(this.InstallProgTxtBox);
             this.Controls.Add(this.BtnFolderBrowse);
@@ -173,9 +179,12 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.PkgNameTxtBox);
             this.Controls.Add(this.NameLabel);
-            this.Name = "AddApplication";
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
+            this.Name = "ApplicationWizard";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Add New Application Wizard";
+            this.Text = "Application Wizard";
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -190,8 +199,8 @@
         private System.Windows.Forms.Button BtnFolderBrowse;
         private System.Windows.Forms.TextBox InstallProgTxtBox;
         private System.Windows.Forms.Label LabelIProgram;
-        private System.Windows.Forms.Button btnInstallBrowse;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button BtnInstallBrowse;
+        private System.Windows.Forms.Button BtnUninstallBrowse;
         private System.Windows.Forms.Label LabelUProgram;
         private System.Windows.Forms.TextBox UninstallProgTxtBox;
         private System.Windows.Forms.Button btnCancel;
