@@ -24,7 +24,7 @@ namespace ApplicationInstaller
 
         bool Skip = false;
         bool Cancel = false;
-        string location = "Applications.csv";
+        string location = "AllApplications.csv";
 
         public MainUI()
         {
@@ -337,6 +337,27 @@ namespace ApplicationInstaller
             this.silentUninstall[Index] = Uninstall;
 
             return true;
+        }
+
+        private void removeProgramToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            if (selectInstallList.SelectedIndices.Count == 0)
+                return;
+
+            string PackageName = (string) selectInstallList.SelectedItem;
+            int index = programName.IndexOf(PackageName);
+
+            var confirm = MessageBox.Show("Are you sure you want to delete " + 
+                                            PackageName + " from the applications list?", 
+                                            "Confirm/Deny", MessageBoxButtons.YesNo);
+            if (confirm == DialogResult.Yes)
+            {
+                programName.RemoveAt(index);
+                filePath.RemoveAt(index);
+                silentInstall.RemoveAt(index);
+                silentUninstall.RemoveAt(index);
+                selectInstallList.Items.Remove(PackageName);
+            }
         }
     }
 

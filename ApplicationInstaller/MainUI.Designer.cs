@@ -92,21 +92,22 @@
             // 
             this.openApplicationFileToolStripMenuItem.Name = "openApplicationFileToolStripMenuItem";
             this.openApplicationFileToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.openApplicationFileToolStripMenuItem.Size = new System.Drawing.Size(258, 22);
+            this.openApplicationFileToolStripMenuItem.Size = new System.Drawing.Size(267, 22);
             this.openApplicationFileToolStripMenuItem.Text = "Open Application File";
             this.openApplicationFileToolStripMenuItem.Click += new System.EventHandler(this.openApplicationFileToolStripMenuItem_Click);
             // 
             // saveCurrentConfigurationToolStripMenuItem
             // 
             this.saveCurrentConfigurationToolStripMenuItem.Name = "saveCurrentConfigurationToolStripMenuItem";
-            this.saveCurrentConfigurationToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.saveCurrentConfigurationToolStripMenuItem.Size = new System.Drawing.Size(258, 22);
-            this.saveCurrentConfigurationToolStripMenuItem.Text = "Save Current Configuration";
+            this.saveCurrentConfigurationToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.S)));
+            this.saveCurrentConfigurationToolStripMenuItem.Size = new System.Drawing.Size(267, 22);
+            this.saveCurrentConfigurationToolStripMenuItem.Text = "Save Available Apps As";
             // 
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(258, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(267, 22);
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
@@ -154,6 +155,7 @@
             | System.Windows.Forms.Keys.R)));
             this.removeProgramToolStripMenuItem1.Size = new System.Drawing.Size(239, 22);
             this.removeProgramToolStripMenuItem1.Text = "Remove Program";
+            this.removeProgramToolStripMenuItem1.Click += new System.EventHandler(this.removeProgramToolStripMenuItem1_Click);
             // 
             // selectAllToolStripMenuItem
             // 
