@@ -39,20 +39,29 @@ namespace ApplicationInstaller
         {
             selectInstallList.Items.Clear();
             queueList.Items.Clear();
-
-            using (var reader = new StreamReader(@location))
+            try
             {
-                while(!reader.EndOfStream)
+                using (var reader = new StreamReader(@location))
                 {
-                    var line = reader.ReadLine();
-                    var values = line.Split(',');
-                    programName.Add(values[0]);
-                    filePath.Add(values[1]);
-                    silentInstall.Add(values[2]);
-                    silentUninstall.Add(values[3]);
-                    selectInstallList.Items.Add(values[0]);
+                    while (!reader.EndOfStream)
+                    {
+                        var line = reader.ReadLine();
+                        var values = line.Split(',');
+                        programName.Add(values[0]);
+                        filePath.Add(values[1]);
+                        silentInstall.Add(values[2]);
+                        silentUninstall.Add(values[3]);
+                        selectInstallList.Items.Add(values[0]);
+                    }
+
                 }
 
+                //Make the window title reflect the current open file
+                string fileName = location.Substring(location.LastIndexOf('\\') + 1);
+                this.Text = "Application Installer - " + fileName;
+            } catch (Exception e)
+            {
+                MessageBox.Show("Unable to open default csv file");
             }
 
         }
@@ -71,6 +80,7 @@ namespace ApplicationInstaller
             }
         }
 
+        //Removes items from the queue
         private void btnRemoveQueue_Click(object sender, EventArgs e)
         {
             UndoBranch.Add(new Pair(false, queueList.Items));
@@ -82,6 +92,7 @@ namespace ApplicationInstaller
             }
         }
 
+        //Installs selected programs
         private void btnInstall_Click(object sender, EventArgs e)
         {
             //For each of the objects in the queue
@@ -124,6 +135,9 @@ namespace ApplicationInstaller
             }
         }
 
+        /*
+         * Uninstalls all items selected in the queue
+         */
         private void btnUninstall_Click(object sender, EventArgs e)
         {
             //For each of the objects in the queue
@@ -184,11 +198,13 @@ namespace ApplicationInstaller
             MessageBox.Show("This program is used to \ninstall applications.\nLots of them :)");
         }
 
+        //Basic Information
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
             MessageBox.Show("Application Installer v1.0\nWritten by Fraser LeFevre\nand Jeffrey Pearson");
         }
 
+        //Gets a file path and calls populate list after saving it
         private void openApplicationFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
             // Open a file and save it's path into the location string
@@ -222,7 +238,6 @@ namespace ApplicationInstaller
                 queueList.ClearSelected();
                 queueList.SetSelected(from, true);
             }
-
         }
 
         private void btnMoveDown_Click(object sender, EventArgs e)
@@ -248,6 +263,7 @@ namespace ApplicationInstaller
             }
         }
 
+        //Selects all items in the list with focus
         private void selectAllToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (queueList.ContainsFocus)
@@ -271,6 +287,7 @@ namespace ApplicationInstaller
             
         }
 
+        //Do you like undo?
         private void undoToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (UndoBranch.Count == 0)
@@ -283,11 +300,15 @@ namespace ApplicationInstaller
             UndoBranch.RemoveAt(UndoBranch.Count - 1);
         }
 
+        
         private void addProgramToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             ApplicationWizard addApplication = new ApplicationWizard();
             addApplication._callBack = this;
             addApplication.ShowDialog();
+            //Update the Form Text
+            string fileName = location.Substring(location.LastIndexOf('\\') + 1);
+            this.Text = "Application Installer - " + fileName;
         }
 
         private void editProgramsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -301,6 +322,10 @@ namespace ApplicationInstaller
             ApplicationWizard editApplication = new ApplicationWizard(index, PackageName, path, install, uninstall);
             editApplication._callBack = this;
             editApplication.ShowDialog();
+
+            //Update the Form Text
+            string fileName = location.Substring(location.LastIndexOf('\\') + 1);
+            this.Text = "Application Installer - " + fileName;
         }
 
         bool CallBack.Function(bool Edit, int Index, string Name, string Path, string Install, string Uninstall)
@@ -341,23 +366,138 @@ namespace ApplicationInstaller
 
         private void removeProgramToolStripMenuItem1_Click(object sender, EventArgs e)
         {
+            //If no programs are selected, don't do anything 
             if (selectInstallList.SelectedIndices.Count == 0)
                 return;
 
-            string PackageName = (string) selectInstallList.SelectedItem;
-            int index = programName.IndexOf(PackageName);
-
-            var confirm = MessageBox.Show("Are you sure you want to delete " + 
-                                            PackageName + " from the applications list?", 
-                                            "Confirm/Deny", MessageBoxButtons.YesNo);
-            if (confirm == DialogResult.Yes)
+            List<string> RemoveItems = selectInstallList.SelectedItems.Cast<string>().ToList();
+            foreach (string packageName in RemoveItems)
             {
-                programName.RemoveAt(index);
-                filePath.RemoveAt(index);
-                silentInstall.RemoveAt(index);
-                silentUninstall.RemoveAt(index);
-                selectInstallList.Items.Remove(PackageName);
+                int index = programName.IndexOf(packageName);
+
+                var confirm = MessageBox.Show("Are you sure you want to delete " +
+                    packageName + " from the applications list?",
+                    "Confirm/Deny", MessageBoxButtons.YesNo);
+
+                if (confirm == DialogResult.Yes)
+                {
+                    programName.RemoveAt(index);
+                    filePath.RemoveAt(index);
+                    silentInstall.RemoveAt(index);
+                    silentUninstall.RemoveAt(index);
+                    selectInstallList.Items.Remove(packageName);
+
+                    //Update the Form Text
+                    string fileName = location.Substring(location.LastIndexOf('\\') + 1);
+                    this.Text = "Application Installer - " + fileName;
+                }
             }
+        }
+
+        /*
+         * Save As Function
+         * Saves the current state of the applications list
+         * to a selected file, and then saves the file to 
+         * the location variable.
+         */
+        private void saveCurrentConfigurationToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //Create a SaveFileDialog to save the file
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "CSV Files|*.csv";
+            saveFileDialog.Title = "Save Current Application List";
+            saveFileDialog.ShowDialog();
+
+            //Get the dialog result, and make sure a file was selected.
+            if(saveFileDialog.FileName != "")
+            {
+                //Write a CSV file line bby line.
+                try
+                {
+                    //Delete the file if it already exists.
+                    //This makes sure we don't append to and make a huge file
+                    if (File.Exists(@saveFileDialog.FileName))
+                    {
+                        File.Delete(@saveFileDialog.FileName);
+                    }
+
+                    //Open the file for writing
+                    using (System.IO.StreamWriter file =
+                        new System.IO.StreamWriter(@saveFileDialog.FileName))
+                    {
+                        int i = 0;
+                        foreach (var name in  programName)
+                        {
+                            if (name != "")
+                            {
+                                file.WriteLine(programName[i] + ',' + filePath[i] + ',' + silentInstall[i] + ',' + silentUninstall[i]);
+                            }
+                            i++;
+                        }
+                    }
+
+                    //Update the file location locally so we can reference it later
+                    location = saveFileDialog.FileName;
+
+                    //Update the file title
+                    string fileName = location.Substring(location.LastIndexOf('\\') + 1);
+                    this.Text = "Application Installer - " + fileName + " - File Saved";
+
+                } catch (Exception e2)
+                {
+                    MessageBox.Show("Error writing to file: " + saveFileDialog.FileName);
+                }
+            }
+            
+        }
+
+        /*
+         * Save Function
+         * Saves the current state of the application list
+         * to the last opened CSV file
+         */
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //Write a CSV file line bby line.
+            try
+            {
+
+                //Delete the file if it already exists.
+                //This makes sure we don't append to and make a huge file
+                if(File.Exists(@location))
+                {
+                    File.Delete(@location);
+                }
+
+                using (System.IO.StreamWriter file =
+                    new System.IO.StreamWriter(@location))
+                {
+                    //Write to the file
+                    int i = 0;
+                    foreach (var name in programName)
+                    {
+                        if (name != "")
+                        {
+                            file.WriteLine(programName[i] + ',' + filePath[i] + ',' + silentInstall[i] + ',' + silentUninstall[i]);
+                        }
+                        i++;
+                    }
+                }
+
+                //Update the file title
+                string fileName = location.Substring(location.LastIndexOf('\\') + 1);
+                this.Text = "Application Installer - " + fileName + " - File Saved";
+            }
+            catch (Exception e2)
+            {
+                MessageBox.Show("Error writing to file: " + location);
+            }
+        }
+
+        //Because sarcasm makes everyone's day better :D
+        private void reallyINeedHelpToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("applicationinstaller.sarcasticcomment.42");
         }
     }
 
