@@ -92,16 +92,18 @@ namespace ApplicationInstaller
             }
         }
 
-        //Installs selected programs
+        /*
+         * Install:
+         *  Installs all items selected in the queue
+         */
         private void btnInstall_Click(object sender, EventArgs e)
         {
             //For each of the objects in the queue
             //Call SilentInstall.exe with the correct parameters, and wait until it is finished
-
-
             List<string> QueuedItems = queueList.Items.Cast<string>().ToList();
             foreach (string PackageName in QueuedItems)
             {
+                // allow user the chance to skip or cancel the install process
                 ConfirmationBox CBox = new ConfirmationBox(PackageName, "Preparing To Install");
                 CBox._callBack = this;
                 CBox.ShowDialog();
@@ -116,37 +118,41 @@ namespace ApplicationInstaller
                     break;
                 }
 
+                // create a new thread to run the progress bar on
                 Thread thread = new Thread(() => {
                     ProgressBarUI progress = new ProgressBarUI(PackageName, true);
                     Application.Run(progress);
                 });
                 thread.Start();
 
+                // setup arguments for install process
                 int index = programName.IndexOf(PackageName);
                 string Arguments = "-p \"" + filePath[index] + "\"";
                 Arguments += " -f \"" + silentInstall[index] + "\"";
                 Arguments += " -i";
 
+                // create the task to install the program
                 RunningTask task = new RunningTask();
                 task._callBack = this;
                 task.Execute(PackageName, Arguments);
 
+                // kill the progress bar
                 thread.Abort();
             }
         }
 
         /*
-         * Uninstalls all items selected in the queue
+         * Uninstall:
+         *  Uninstalls all items selected in the queue
          */
         private void btnUninstall_Click(object sender, EventArgs e)
         {
             //For each of the objects in the queue
             //Call SilentInstall.exe with the correct parameters, and wait until it is finished
-
-
             List<string> QueuedItems = queueList.Items.Cast<string>().ToList();
             foreach (string PackageName in QueuedItems)
             {
+                // allow user the chance to skip or cancel the uninstall process
                 ConfirmationBox CBox = new ConfirmationBox(PackageName, "Preparing To Uninstall");
                 CBox._callBack = this;
                 CBox.ShowDialog();
@@ -161,31 +167,37 @@ namespace ApplicationInstaller
                     break;
                 }
 
+                // create a new thread to run the progress bar on
                 Thread thread = new Thread(() => {
                     ProgressBarUI progress = new ProgressBarUI(PackageName, false);
                     Application.Run(progress);
                 });
                 thread.Start();
 
+                // setup arguments for uninstall process
                 int index = programName.IndexOf(PackageName);
                 string Arguments = "-p \"" + filePath[index] + "\"";
                 Arguments += " -f \"" + silentUninstall[index] + "\"";
                 Arguments += " -u";
 
+                // create the task to uninstall the program
                 RunningTask task = new RunningTask();
                 task._callBack = this;
                 task.Execute(PackageName, Arguments);
 
+                // kill the progress bar
                 thread.Abort();
             }
         }
 
+        // callback to handle the completion of an intsall/uninstall
         void CallBack.Function(string PackageName, Task task)
         {
             task.Wait();
             queueList.Items.Remove(PackageName);
         }
 
+        // callback to handle skiping or canceling of installing/uninstalling programs
         void CallBack.Function(bool Skip, bool Cancel)
         {
             this.Skip = Skip;
@@ -218,6 +230,10 @@ namespace ApplicationInstaller
             populateList();
         }
 
+        /*
+         * MoveUp:
+         *  Moves an item up in the queue list
+         */
         private void btnMoveUp_Click(object sender, EventArgs e)
         {
             //Make sure the user has only selected one item
@@ -240,6 +256,10 @@ namespace ApplicationInstaller
             }
         }
 
+        /*
+         * MoveDown:
+         *  Move items down in the queue list
+         */
         private void btnMoveDown_Click(object sender, EventArgs e)
         {
             //Make sure the user has only selected one item
@@ -290,9 +310,14 @@ namespace ApplicationInstaller
         //Do you like undo?
         private void undoToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            // ensure there is undo information
             if (UndoBranch.Count == 0)
                 return;
+
+            // clear the queue as is
             queueList.Items.Clear();
+
+            // insert the items from the last Queue action
             foreach(string pkgName in UndoBranch.Last<Pair>().QueueList)
             {
                 queueList.Items.Add(pkgName);
@@ -300,25 +325,36 @@ namespace ApplicationInstaller
             UndoBranch.RemoveAt(UndoBranch.Count - 1);
         }
 
-        
+        /*
+         * AddProgram:
+         *  Adds a program to the application list
+         */
         private void addProgramToolStripMenuItem1_Click(object sender, EventArgs e)
         {
+            // create an instance of the application wizard and use *this for the callback on complete function.
             ApplicationWizard addApplication = new ApplicationWizard();
             addApplication._callBack = this;
             addApplication.ShowDialog();
+
             //Update the Form Text
             string fileName = location.Substring(location.LastIndexOf('\\') + 1);
             this.Text = "Application Installer - " + fileName;
         }
 
+        /*
+         * EditProgram:
+         *  Edits programs from the applications list
+         */
         private void editProgramsToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            // colllect the current information
             string PackageName = (string)selectInstallList.SelectedItem;
             int index = programName.IndexOf(PackageName);
             string path = filePath[index];
             string install = silentInstall[index];
             string uninstall = silentUninstall[index];
 
+            // send the information to the application wizard and use *this for the callback function.
             ApplicationWizard editApplication = new ApplicationWizard(index, PackageName, path, install, uninstall);
             editApplication._callBack = this;
             editApplication.ShowDialog();
@@ -328,20 +364,27 @@ namespace ApplicationInstaller
             this.Text = "Application Installer - " + fileName;
         }
 
+        /*
+         * Function: Application Wizard
+         *  handles the results of the application wizard
+         */
         bool CallBack.Function(bool Edit, int Index, string Name, string Path, string Install, string Uninstall)
         {
+            // check that an application name was specified
             if (Name == "")
             {
                 MessageBox.Show("Must enter an Application Name");
                 return false;
             }
 
+            // ensure the program name is not in the list if we are not editing
             if (this.programName.Contains(Name) && !Edit)
             {
                 MessageBox.Show("Application name already in list");
                 return false;
             }
 
+            // if not editing, add the items to the list
             if (!Edit)
             {
                 selectInstallList.Items.Add(Name);
@@ -353,6 +396,7 @@ namespace ApplicationInstaller
                 return true;
             }
 
+            // replace the old items in the list with the new values from editing
             string OldName = this.programName[Index];
             selectInstallList.Items.Remove(OldName);
             selectInstallList.Items.Add(Name);
@@ -364,12 +408,17 @@ namespace ApplicationInstaller
             return true;
         }
 
+        /*
+         * RemoveProgram:
+         *  removes a program from the applications list
+         */
         private void removeProgramToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             //If no programs are selected, don't do anything 
             if (selectInstallList.SelectedIndices.Count == 0)
                 return;
 
+            // itterates through each selected item and removes it if the user says to
             List<string> RemoveItems = selectInstallList.SelectedItems.Cast<string>().ToList();
             foreach (string packageName in RemoveItems)
             {
@@ -497,10 +546,17 @@ namespace ApplicationInstaller
         //Because sarcasm makes everyone's day better :D
         private void reallyINeedHelpToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("applicationinstaller.sarcasticcomment.42");
+            MessageBox.Show("applicationinstaller.sarcasticcomment." + new Random().Next(0,100));
         }
     }
 
+    /*
+     * Pair:
+     * Used for undo, hold a bool that
+     * tells what action was preformed
+     * and a list of the QueueList when
+     * that action was made
+     */
     class Pair
     {
         public Pair(bool Add, ListBox.ObjectCollection QueueList)

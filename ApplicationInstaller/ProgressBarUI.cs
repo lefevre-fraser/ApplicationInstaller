@@ -17,8 +17,13 @@ namespace ApplicationInstaller
             InitializeComponent();
         }
 
+        /*
+         * Overload Constructor:
+         *  Initiate a progress bar
+         */
         public ProgressBarUI(string PackageName, bool install) : this()
         {
+            // set up the UI
             ProgressBar.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
             ProgressBar.MarqueeAnimationSpeed = 50;
             ProgramName.Text = PackageName;
