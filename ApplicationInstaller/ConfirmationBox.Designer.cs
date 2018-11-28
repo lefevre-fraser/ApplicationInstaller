@@ -112,6 +112,8 @@
             this.Controls.Add(this.Skip);
             this.Controls.Add(this.PackageName);
             this.Controls.Add(this.Action);
+            this.MaximumSize = new System.Drawing.Size(487, 209);
+            this.MinimumSize = new System.Drawing.Size(487, 209);
             this.Name = "ConfirmationBox";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Application Installer";

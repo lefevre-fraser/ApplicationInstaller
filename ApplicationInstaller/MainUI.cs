@@ -21,7 +21,7 @@ namespace ApplicationInstaller
         List<string> silentInstall = new List<string>();
         List<string> silentUninstall = new List<string>();
         List<Pair> UndoBranch = new List<Pair>();
-
+        
         bool Skip = false;
         bool Cancel = false;
         string location = "AllApplications.csv";

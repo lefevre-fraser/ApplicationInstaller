@@ -181,7 +181,9 @@
             this.Controls.Add(this.NameLabel);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
+            this.MaximumSize = new System.Drawing.Size(694, 244);
             this.MinimizeBox = false;
+            this.MinimumSize = new System.Drawing.Size(694, 244);
             this.Name = "ApplicationWizard";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Application Wizard";
