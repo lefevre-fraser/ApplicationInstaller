@@ -47,6 +47,7 @@
             this.undoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.whatAmIDoingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.reallyINeedHelpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.queueList = new System.Windows.Forms.ListBox();
             this.selectInstallList = new System.Windows.Forms.ListBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -57,7 +58,6 @@
             this.btnuninstall = new System.Windows.Forms.Button();
             this.btnMoveUp = new System.Windows.Forms.Button();
             this.btnMoveDown = new System.Windows.Forms.Button();
-            this.reallyINeedHelpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -202,9 +202,16 @@
             // whatAmIDoingToolStripMenuItem
             // 
             this.whatAmIDoingToolStripMenuItem.Name = "whatAmIDoingToolStripMenuItem";
-            this.whatAmIDoingToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.whatAmIDoingToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
             this.whatAmIDoingToolStripMenuItem.Text = "What am I doing?";
             this.whatAmIDoingToolStripMenuItem.Click += new System.EventHandler(this.whatAmIDoingToolStripMenuItem_Click);
+            // 
+            // reallyINeedHelpToolStripMenuItem
+            // 
+            this.reallyINeedHelpToolStripMenuItem.Name = "reallyINeedHelpToolStripMenuItem";
+            this.reallyINeedHelpToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
+            this.reallyINeedHelpToolStripMenuItem.Text = "Really, I need help.";
+            this.reallyINeedHelpToolStripMenuItem.Click += new System.EventHandler(this.reallyINeedHelpToolStripMenuItem_Click);
             // 
             // queueList
             // 
@@ -302,13 +309,6 @@
             this.btnMoveDown.Text = "Move Down";
             this.btnMoveDown.UseVisualStyleBackColor = true;
             this.btnMoveDown.Click += new System.EventHandler(this.btnMoveDown_Click);
-            // 
-            // reallyINeedHelpToolStripMenuItem
-            // 
-            this.reallyINeedHelpToolStripMenuItem.Name = "reallyINeedHelpToolStripMenuItem";
-            this.reallyINeedHelpToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.reallyINeedHelpToolStripMenuItem.Text = "Really, I need help.";
-            this.reallyINeedHelpToolStripMenuItem.Click += new System.EventHandler(this.reallyINeedHelpToolStripMenuItem_Click);
             // 
             // MainUI
             // 
