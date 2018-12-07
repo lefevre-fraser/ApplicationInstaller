@@ -58,6 +58,7 @@
             this.btnuninstall = new System.Windows.Forms.Button();
             this.btnMoveUp = new System.Windows.Forms.Button();
             this.btnMoveDown = new System.Windows.Forms.Button();
+            this.removeFromQueueToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -126,6 +127,7 @@
             this.addProgramToolStripMenuItem,
             this.selectAllToolStripMenuItem,
             this.addToQueueToolStripMenuItem,
+            this.removeFromQueueToolStripMenuItem,
             this.undoToolStripMenuItem});
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
             this.editToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
@@ -144,7 +146,7 @@
             // addProgramToolStripMenuItem1
             // 
             this.addProgramToolStripMenuItem1.Name = "addProgramToolStripMenuItem1";
-            this.addProgramToolStripMenuItem1.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.P)));
+            this.addProgramToolStripMenuItem1.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
             this.addProgramToolStripMenuItem1.Size = new System.Drawing.Size(239, 22);
             this.addProgramToolStripMenuItem1.Text = "Add Program";
             this.addProgramToolStripMenuItem1.Click += new System.EventHandler(this.addProgramToolStripMenuItem1_Click);
@@ -310,6 +312,14 @@
             this.btnMoveDown.UseVisualStyleBackColor = true;
             this.btnMoveDown.Click += new System.EventHandler(this.btnMoveDown_Click);
             // 
+            // removeFromQueueToolStripMenuItem
+            // 
+            this.removeFromQueueToolStripMenuItem.Name = "removeFromQueueToolStripMenuItem";
+            this.removeFromQueueToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.R)));
+            this.removeFromQueueToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
+            this.removeFromQueueToolStripMenuItem.Text = "Remove From Queue";
+            this.removeFromQueueToolStripMenuItem.Click += new System.EventHandler(this.btnRemoveQueue_Click);
+            // 
             // MainUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -370,6 +380,7 @@
         private System.Windows.Forms.ToolStripMenuItem removeProgramToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem reallyINeedHelpToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem removeFromQueueToolStripMenuItem;
     }
 }
 

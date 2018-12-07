@@ -14,8 +14,7 @@ namespace ApplicationInstaller
     public partial class ApplicationWizard : Form
     {
         public CallBack _callBack;
-        private int _index = -1;
-        private bool _edit = false;
+        private string _oldPackageName = "";
 
         public ApplicationWizard()
         {
@@ -27,15 +26,14 @@ namespace ApplicationInstaller
          *  for editing applications
          *  takes in current application information
          */
-        public ApplicationWizard(int index, string packageName, string path, string install, string uninstall) : this()
+        public ApplicationWizard(string oldPackageName, string path, string install, string uninstall) : this()
         {
             // set fields to application data
-            PkgNameTxtBox.Text = packageName;
+            PkgNameTxtBox.Text = oldPackageName;
             FolderPathTxtBox.Text = path;
             InstallProgTxtBox.Text = install;
             UninstallProgTxtBox.Text = uninstall;
-            _edit = true;
-            _index = index;
+            _oldPackageName = oldPackageName;
         }
 
         // Cancel Button
@@ -56,7 +54,7 @@ namespace ApplicationInstaller
             string path = FolderPathTxtBox.Text.Trim();
             string install = InstallProgTxtBox.Text.Trim();
             string uninstall = UninstallProgTxtBox.Text.Trim();
-            if (_callBack.Function(_edit, _index, name, path, install, uninstall))
+            if (_callBack.Function(_oldPackageName, name, path, install, uninstall))
                 this.Close();
         }
 
@@ -65,6 +63,7 @@ namespace ApplicationInstaller
         {
             // open folder browse diolog
             VistaFolderBrowserDialog fd = new VistaFolderBrowserDialog();
+            fd.SelectedPath = FolderPathTxtBox.Text;
 
             // insert returned data into form
             if (fd.ShowDialog() == DialogResult.OK)
@@ -80,7 +79,8 @@ namespace ApplicationInstaller
         {
             // open file browser dialog
             var fd = new OpenFileDialog();
-            fd.Filter = "Batch (*.bat)|*.bat|PowerShell (*.ps1)|*.ps1|Executables (*.exe)|*.exe|Msi's (*.msi)|*.msi|All Files (*.*)|*.*";
+            fd.Filter = "Supported File Types|*.bat;*.ps1;*.msi;*.exe|All Files|*.*";
+            fd.InitialDirectory = FolderPathTxtBox.Text;
 
             // insert returned filename into the form
             if (fd.ShowDialog() == DialogResult.OK)

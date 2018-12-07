@@ -12,6 +12,7 @@
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>C:\Users\labfraser\Desktop\Published\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -22,9 +23,9 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
+    <AutorunEnabled>true</AutorunEnabled>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
@@ -85,11 +86,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Program.cs" />
     <Compile Include="ApplicationWizard.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="ApplicationWizard.Designer.cs">
       <DependentUpon>ApplicationWizard.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MainUi2.cs">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="RunningTask.cs" />
     <Compile Include="ConfirmationBox.cs">
@@ -111,7 +116,7 @@
       <DependentUpon>ProgressBarUI.cs</DependentUpon>
     </Compile>
     <Compile Include="CallBack.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="Launcher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="ApplicationWizard.resx">
       <DependentUpon>ApplicationWizard.cs</DependentUpon>

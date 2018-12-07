@@ -16,16 +16,15 @@ namespace ApplicationInstaller
     
     public partial class MainUI : Form, CallBack
     {
-        List<string> programName = new List<string>();
-        List<string> filePath = new List<string>();
-        List<string> silentInstall = new List<string>();
-        List<string> silentUninstall = new List<string>();
-        List<Pair> UndoBranch = new List<Pair>();
+        private Dictionary<string, Program> _programs = new Dictionary<string, Program>();
+        private List<List<string>> UndoBranch = new List<List<string>>();
         
-        bool Skip = false;
-        bool Cancel = false;
-        string location = "AllApplications.csv";
+        bool _skip = false;
+        bool _cancel = false;
+        string _location = "AllApplications.csv";
 
+        // default constructor 
+        // initialize the UI form
         public MainUI()
         {
             InitializeComponent();
@@ -37,171 +36,34 @@ namespace ApplicationInstaller
          */
         private void populateList()
         {
+            // clear the current lists
             selectInstallList.Items.Clear();
             queueList.Items.Clear();
+            _programs.Clear();
+
             try
             {
-                using (var reader = new StreamReader(@location))
+                using (var reader = new StreamReader(_location))
                 {
                     while (!reader.EndOfStream)
                     {
                         var line = reader.ReadLine();
                         var values = line.Split(',');
-                        programName.Add(values[0]);
-                        filePath.Add(values[1]);
-                        silentInstall.Add(values[2]);
-                        silentUninstall.Add(values[3]);
+                        _programs[values[0]] = new Program(values[0], values[1], values[2], values[3]);
+
                         selectInstallList.Items.Add(values[0]);
                     }
 
                 }
 
                 //Make the window title reflect the current open file
-                string fileName = location.Substring(location.LastIndexOf('\\') + 1);
+                string fileName = _location.Substring(_location.LastIndexOf('\\') + 1);
                 this.Text = "Application Installer - " + fileName;
             } catch (Exception e)
             {
                 MessageBox.Show("Unable to open default csv file");
             }
 
-        }
-
-
-        //On click, grab any selected items from the first list and move them to the other one.
-        private void btnAddQueue_Click(object sender, EventArgs e)
-        {
-            UndoBranch.Add(new Pair(true, queueList.Items));
-            foreach (int index in selectInstallList.SelectedIndices)
-            {
-                if (!queueList.Items.Contains(selectInstallList.Items[index]))
-                {
-                    queueList.Items.Add(selectInstallList.Items[index]);
-                }
-            }
-        }
-
-        //Removes items from the queue
-        private void btnRemoveQueue_Click(object sender, EventArgs e)
-        {
-            UndoBranch.Add(new Pair(false, queueList.Items));
-            List<int> mylist = (queueList.SelectedIndices.Cast<int>().ToList());
-            mylist.Reverse();
-            foreach (int index in mylist)
-            {
-                queueList.Items.RemoveAt(index);
-            }
-        }
-
-        /*
-         * Install:
-         *  Installs all items selected in the queue
-         */
-        private void btnInstall_Click(object sender, EventArgs e)
-        {
-            //For each of the objects in the queue
-            //Call SilentInstall.exe with the correct parameters, and wait until it is finished
-            List<string> QueuedItems = queueList.Items.Cast<string>().ToList();
-            foreach (string PackageName in QueuedItems)
-            {
-                // allow user the chance to skip or cancel the install process
-                ConfirmationBox CBox = new ConfirmationBox(PackageName, "Preparing To Install");
-                CBox._callBack = this;
-                CBox.ShowDialog();
-                if (Skip)
-                {
-                    Skip = false;
-                    continue;
-                }
-                if (Cancel)
-                {
-                    Cancel = false;
-                    break;
-                }
-
-                // create a new thread to run the progress bar on
-                Thread thread = new Thread(() => {
-                    ProgressBarUI progress = new ProgressBarUI(PackageName, true);
-                    Application.Run(progress);
-                });
-                thread.Start();
-
-                // setup arguments for install process
-                int index = programName.IndexOf(PackageName);
-                string Arguments = "-p \"" + filePath[index] + "\"";
-                Arguments += " -f \"" + silentInstall[index] + "\"";
-                Arguments += " -i";
-
-                // create the task to install the program
-                RunningTask task = new RunningTask();
-                task._callBack = this;
-                task.Execute(PackageName, Arguments);
-
-                // kill the progress bar
-                thread.Abort();
-            }
-        }
-
-        /*
-         * Uninstall:
-         *  Uninstalls all items selected in the queue
-         */
-        private void btnUninstall_Click(object sender, EventArgs e)
-        {
-            //For each of the objects in the queue
-            //Call SilentInstall.exe with the correct parameters, and wait until it is finished
-            List<string> QueuedItems = queueList.Items.Cast<string>().ToList();
-            foreach (string PackageName in QueuedItems)
-            {
-                // allow user the chance to skip or cancel the uninstall process
-                ConfirmationBox CBox = new ConfirmationBox(PackageName, "Preparing To Uninstall");
-                CBox._callBack = this;
-                CBox.ShowDialog();
-                if (Skip)
-                {
-                    Skip = false;
-                    continue;
-                }
-                if (Cancel)
-                {
-                    Cancel = false;
-                    break;
-                }
-
-                // create a new thread to run the progress bar on
-                Thread thread = new Thread(() => {
-                    ProgressBarUI progress = new ProgressBarUI(PackageName, false);
-                    Application.Run(progress);
-                });
-                thread.Start();
-
-                // setup arguments for uninstall process
-                int index = programName.IndexOf(PackageName);
-                string Arguments = "-p \"" + filePath[index] + "\"";
-                Arguments += " -f \"" + silentUninstall[index] + "\"";
-                Arguments += " -u";
-
-                // create the task to uninstall the program
-                RunningTask task = new RunningTask();
-                task._callBack = this;
-                task.Execute(PackageName, Arguments);
-
-                // kill the progress bar
-                thread.Abort();
-            }
-        }
-
-        // callback to handle the completion of an intsall/uninstall
-        void CallBack.Function(string PackageName, Task task)
-        {
-            task.Wait();
-            queueList.Items.Remove(PackageName);
-        }
-
-        // callback to handle skiping or canceling of installing/uninstalling programs
-        void CallBack.Function(bool Skip, bool Cancel)
-        {
-            this.Skip = Skip;
-            this.Cancel = Cancel;
         }
 
         // Not sarcastic
@@ -225,63 +87,12 @@ namespace ApplicationInstaller
             fd.Filter = "CSV files (*.csv)|*.csv|All Files (*.*)|*.*";
             if(fd.ShowDialog() == DialogResult.OK)
             {
-                location = fd.FileName;
+                _location = fd.FileName;
             }
             populateList();
         }
 
-        /*
-         * MoveUp:
-         *  Moves an item up in the queue list
-         */
-        private void btnMoveUp_Click(object sender, EventArgs e)
-        {
-            //Make sure the user has only selected one item
-            //If they haven't, warn them instead of doing anything.
-            //Make sure the item is not the first item in the list.
-            //If all criteria are met, swap the item with the one above it
-            if (queueList.SelectedIndices.Count < 1)
-                MessageBox.Show("WARNING:\nYou must select a queued\nitem to use this feature.");
-            else if (queueList.SelectedIndices.Count > 1)
-                MessageBox.Show("WARNING:\nOnly one queued program may be\nselected to use this feature.");
-            else if (queueList.SelectedIndex != 0) //Make sure this isn't the first object before we move it
-            {
-                int from = queueList.SelectedIndices[0];
-                int to = from--; //Get's the one on top of it
-                var temp = queueList.Items[to];
-                queueList.Items[to] = queueList.Items[from];
-                queueList.Items[from] = temp;
-                queueList.ClearSelected();
-                queueList.SetSelected(from, true);
-            }
-        }
-
-        /*
-         * MoveDown:
-         *  Move items down in the queue list
-         */
-        private void btnMoveDown_Click(object sender, EventArgs e)
-        {
-            //Make sure the user has only selected one item
-            //If they haven't, warn them instead of doing anything.
-            //Make sure the item is not the last item in the list.
-            //If all criteria are met, swap the item with the one below it
-            if (queueList.SelectedIndices.Count < 1)
-                MessageBox.Show("WARNING:\nYou must select a queued\nitem to use this feature.");
-            else if (queueList.SelectedIndices.Count > 1)
-                MessageBox.Show("WARNING:\nOnly one queued program may be\nselected to use this feature.");
-            else if (queueList.SelectedIndex != queueList.Items.Count - 1) //Make sure this isn't the last object before we move it
-            {
-                int from = queueList.SelectedIndices[0];
-                int to = from++; //Get's the one beneath it
-                var temp = queueList.Items[to];
-                
-                queueList.Items[to] = queueList.Items[from];
-                queueList.Items[from] = temp;
-                queueList.ClearSelected();
-                queueList.SetSelected(from, true);
-            }
-        }
+        
 
         //Selects all items in the list with focus
         private void selectAllToolStripMenuItem_Click(object sender, EventArgs e)
@@ -318,7 +129,7 @@ namespace ApplicationInstaller
             queueList.Items.Clear();
 
             // insert the items from the last Queue action
-            foreach(string pkgName in UndoBranch.Last<Pair>().QueueList)
+            foreach(string pkgName in UndoBranch.Last<List<string>>())
             {
                 queueList.Items.Add(pkgName);
             }
@@ -337,7 +148,7 @@ namespace ApplicationInstaller
             addApplication.ShowDialog();
 
             //Update the Form Text
-            string fileName = location.Substring(location.LastIndexOf('\\') + 1);
+            string fileName = _location.Substring(_location.LastIndexOf('\\') + 1);
             this.Text = "Application Installer - " + fileName;
         }
 
@@ -348,19 +159,18 @@ namespace ApplicationInstaller
         private void editProgramsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             // colllect the current information
-            string PackageName = (string)selectInstallList.SelectedItem;
-            int index = programName.IndexOf(PackageName);
-            string path = filePath[index];
-            string install = silentInstall[index];
-            string uninstall = silentUninstall[index];
+            string OldPackageName = (string)selectInstallList.SelectedItem;
+            string path = _programs[OldPackageName]._path;
+            string installer = _programs[OldPackageName]._installer;
+            string uninstaller = _programs[OldPackageName]._uninstaller;
 
             // send the information to the application wizard and use *this for the callback function.
-            ApplicationWizard editApplication = new ApplicationWizard(index, PackageName, path, install, uninstall);
+            ApplicationWizard editApplication = new ApplicationWizard(OldPackageName, path, installer, uninstaller);
             editApplication._callBack = this;
             editApplication.ShowDialog();
 
             //Update the Form Text
-            string fileName = location.Substring(location.LastIndexOf('\\') + 1);
+            string fileName = _location.Substring(_location.LastIndexOf('\\') + 1);
             this.Text = "Application Installer - " + fileName;
         }
 
@@ -368,7 +178,7 @@ namespace ApplicationInstaller
          * Function: Application Wizard
          *  handles the results of the application wizard
          */
-        bool CallBack.Function(bool Edit, int Index, string Name, string Path, string Install, string Uninstall)
+        bool CallBack.Function(string OldPackageName, string Name, string Path, string Installer, string Uninstaller)
         {
             // check that an application name was specified
             if (Name == "")
@@ -377,33 +187,68 @@ namespace ApplicationInstaller
                 return false;
             }
 
-            // ensure the program name is not in the list if we are not editing
-            if (this.programName.Contains(Name) && !Edit)
+            // this is the creation of a new program in the list
+            if (OldPackageName == "")
             {
-                MessageBox.Show("Application name already in list");
-                return false;
+                // if the name exists in the list ask to overwrite it first
+                if (_programs.ContainsKey(Name))
+                {
+                    DialogResult confirm = MessageBox.Show("Program name already exists in program list.\nDo You want to replace it?",
+                    "Confirm/Deny", MessageBoxButtons.YesNo);
+                    if (confirm == DialogResult.Yes)
+                    {
+                        _programs[Name] = new Program(Name, Path, Installer, Uninstaller);
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                // otherwise just add it in
+                else
+                {
+                    _programs[Name] = new Program(Name, Path, Installer, Uninstaller);
+                }
             }
 
-            // if not editing, add the items to the list
-            if (!Edit)
+            // the program is being edited
+            else
             {
-                selectInstallList.Items.Add(Name);
-                this.programName.Add(Name);
-                this.filePath.Add(Path);
-                this.silentInstall.Add(Install);
-                this.silentUninstall.Add(Uninstall);
+                // if name did not change just replace the old one
+                if (Name == OldPackageName)
+                {
+                    selectInstallList.Items.Add(Name);
+                    selectInstallList.Items.Remove(OldPackageName);
+                    _programs[Name] = new Program(Name, Path, Installer, Uninstaller);
+                }
 
-                return true;
+                // otherwise check if the new name exists in the list already
+                else
+                {
+                    // if the new name exists in the list ask to overwrite it first
+                    if (_programs.ContainsKey(Name))
+                    {
+                        DialogResult confirm = MessageBox.Show("Program name already exists in program list.\nDo You want to replace it?",
+                        "Confirm/Deny", MessageBoxButtons.YesNo);
+                        if (confirm == DialogResult.Yes)
+                        {
+                            _programs.Remove(OldPackageName);
+                            _programs[Name] = new Program(Name, Path, Installer, Uninstaller);
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                    }
+
+                    // otherwise just overwrite it
+                    else
+                    {
+                        _programs.Remove(OldPackageName);
+                        _programs[Name] = new Program(Name, Path, Installer, Uninstaller);
+                    }
+                }
             }
-
-            // replace the old items in the list with the new values from editing
-            string OldName = this.programName[Index];
-            selectInstallList.Items.Remove(OldName);
-            selectInstallList.Items.Add(Name);
-            this.programName[Index] = Name;
-            this.filePath[Index] = Path;
-            this.silentInstall[Index] = Install;
-            this.silentUninstall[Index] = Uninstall;
 
             return true;
         }
@@ -422,22 +267,17 @@ namespace ApplicationInstaller
             List<string> RemoveItems = selectInstallList.SelectedItems.Cast<string>().ToList();
             foreach (string packageName in RemoveItems)
             {
-                int index = programName.IndexOf(packageName);
-
-                var confirm = MessageBox.Show("Are you sure you want to delete " +
+                DialogResult confirm = MessageBox.Show("Are you sure you want to delete " +
                     packageName + " from the applications list?",
                     "Confirm/Deny", MessageBoxButtons.YesNo);
 
                 if (confirm == DialogResult.Yes)
                 {
-                    programName.RemoveAt(index);
-                    filePath.RemoveAt(index);
-                    silentInstall.RemoveAt(index);
-                    silentUninstall.RemoveAt(index);
+                    _programs.Remove(packageName);
                     selectInstallList.Items.Remove(packageName);
 
                     //Update the Form Text
-                    string fileName = location.Substring(location.LastIndexOf('\\') + 1);
+                    string fileName = _location.Substring(_location.LastIndexOf('\\') + 1);
                     this.Text = "Application Installer - " + fileName;
                 }
             }
@@ -455,6 +295,7 @@ namespace ApplicationInstaller
             SaveFileDialog saveFileDialog = new SaveFileDialog();
             saveFileDialog.Filter = "CSV Files|*.csv";
             saveFileDialog.Title = "Save Current Application List";
+            //saveFileDialog.InitialDirectory = _location.Substring(0, _location.LastIndexOf("\\"));
             saveFileDialog.ShowDialog();
 
             //Get the dialog result, and make sure a file was selected.
@@ -474,22 +315,20 @@ namespace ApplicationInstaller
                     using (System.IO.StreamWriter file =
                         new System.IO.StreamWriter(@saveFileDialog.FileName))
                     {
-                        int i = 0;
-                        foreach (var name in  programName)
+                        foreach (KeyValuePair<string, Program> program in  _programs)
                         {
-                            if (name != "")
+                            if (program.Value._name != "")
                             {
-                                file.WriteLine(programName[i] + ',' + filePath[i] + ',' + silentInstall[i] + ',' + silentUninstall[i]);
+                                file.WriteLine(program.Value._name + ',' + program.Value._path + ',' + program.Value._installer + ',' + program.Value._uninstaller);
                             }
-                            i++;
                         }
                     }
 
                     //Update the file location locally so we can reference it later
-                    location = saveFileDialog.FileName;
+                    _location = saveFileDialog.FileName;
 
                     //Update the file title
-                    string fileName = location.Substring(location.LastIndexOf('\\') + 1);
+                    string fileName = _location.Substring(_location.LastIndexOf('\\') + 1);
                     this.Text = "Application Installer - " + fileName + " - File Saved";
 
                 } catch (Exception e2)
@@ -513,33 +352,31 @@ namespace ApplicationInstaller
 
                 //Delete the file if it already exists.
                 //This makes sure we don't append to and make a huge file
-                if(File.Exists(@location))
+                if(File.Exists(_location))
                 {
-                    File.Delete(@location);
+                    File.Delete(_location);
                 }
 
                 using (System.IO.StreamWriter file =
-                    new System.IO.StreamWriter(@location))
+                    new System.IO.StreamWriter(_location))
                 {
                     //Write to the file
-                    int i = 0;
-                    foreach (var name in programName)
+                    foreach (KeyValuePair<string, Program> program in _programs)
                     {
-                        if (name != "")
+                        if (program.Value._name != "")
                         {
-                            file.WriteLine(programName[i] + ',' + filePath[i] + ',' + silentInstall[i] + ',' + silentUninstall[i]);
+                            file.WriteLine(program.Value._name + ',' + program.Value._path + ',' + program.Value._installer + ',' + program.Value._uninstaller);
                         }
-                        i++;
                     }
                 }
 
                 //Update the file title
-                string fileName = location.Substring(location.LastIndexOf('\\') + 1);
+                string fileName = _location.Substring(_location.LastIndexOf('\\') + 1);
                 this.Text = "Application Installer - " + fileName + " - File Saved";
             }
             catch (Exception e2)
             {
-                MessageBox.Show("Error writing to file: " + location);
+                MessageBox.Show("Error writing to file: " + _location);
             }
         }
 
@@ -548,24 +385,6 @@ namespace ApplicationInstaller
         {
             MessageBox.Show("applicationinstaller.sarcasticcomment." + new Random().Next(0,100));
         }
-    }
-
-    /*
-     * Pair:
-     * Used for undo, hold a bool that
-     * tells what action was preformed
-     * and a list of the QueueList when
-     * that action was made
-     */
-    class Pair
-    {
-        public Pair(bool Add, ListBox.ObjectCollection QueueList)
-        {
-            this.Add = Add;
-            this.QueueList = QueueList.Cast<string>().ToList();
-        }
-        public bool Add;
-        public List<string> QueueList;
     }
 }
 

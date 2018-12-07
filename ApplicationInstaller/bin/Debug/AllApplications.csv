@@ -1,7 +1,7 @@
 Adobe Acrobat CC,\\labds.byui.edu.\Software\Adobe\Adobe Acrobat CC\Retrieved 5.16.18\Acrobat,AcrobatSilentInstall2018MSIVersion.bat,AcrobatSilentUninstall2018.bat
 Adobe Air Installer,\\labds.byui.edu.\Software2\Adobe\Adobe_CC_2018\Adobe_CC_Air_2018,silent_install.bat,silent_uninstall.bat
-Adobe Flash NPAPI,\\labds.byui.edu.\Software\Adobe\FlashPlayer\Flashv31.0.0.108\Firefox,install_flash_player_31_plugin.msi,install_flash_player_31_plugin.msi
-Adobe Flash PPAPI,\\labds.byui.edu.\Software\Adobe\FlashPlayer\Flashv31.0.0.108\Chrome,install_flash_player_31_ppapi.msi,install_flash_player_31_ppapi.msi
+Adobe Flash NPAPI,\\labds.byui.edu.\Software\Adobe\FlashPlayer\Flashv31.0.0.153\Firefox,install_flash_player_31_plugin.msi,install_flash_player_31_plugin.msi
+Adobe Flash PPAPI,\\labds.byui.edu.\Software\Adobe\FlashPlayer\Flashv31.0.0.153\Chrome,install_flash_player_31_ppapi.msi,install_flash_player_31_ppapi.msi
 Adobe Illustrator CC,\\labds.byui.edu.\Software2\Adobe\Adobe_CC_2018\Adobe_CC_Illustrator_2018,IllustratorSilentInstall2018.bat,Build\Adobe_CC_Illustrator_2018.msi
 Adobe In Design CC,\\labds.byui.edu.\Software2\Adobe\Adobe_CC_2018\Adobe_CC_InDesign_2018,InDesignSilentInstall2018.bat,Build\Adobe_CC_InDesign_2018.msi
 Adobe LightRoom Clasic CC,\\labds.byui.edu.\Software2\Adobe\Adobe_CC_2018\Adobe_CC_LightroomClassic_2018,LightroomSilentInstall2018.bat,Build\Lightroom_Classic_2018.msi
