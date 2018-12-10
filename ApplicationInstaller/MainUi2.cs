@@ -202,26 +202,39 @@ namespace ApplicationInstaller
          */
         private void btnMoveUp_Click(object sender, EventArgs e)
         {
-            //Make sure the user has only selected one item
-            //If they haven't, warn them instead of doing anything.
+            //Make sure the user has at least one itme selected.
             //Make sure the item is not the first item in the list.
             //If all criteria are met, swap the item with the one above it
             if (queueList.SelectedIndices.Count < 1)
                 MessageBox.Show("WARNING:\nYou must select a queued\nitem to use this feature.");
-            else if (queueList.SelectedIndices.Count > 1)
-                MessageBox.Show("WARNING:\nOnly one queued program may be\nselected to use this feature.");
-            else if (queueList.SelectedIndex != 0) //Make sure this isn't the first object before we move it
-            {
-                // add an undo point
-                UndoBranch.Add(queueList.Items.Cast<string>().ToList());
 
-                int from = queueList.SelectedIndices[0];
-                int to = from--; //Get's the one on top of it
-                var temp = queueList.Items[to];
-                queueList.Items[to] = queueList.Items[from];
-                queueList.Items[from] = temp;
-                queueList.ClearSelected();
-                queueList.SetSelected(from, true);
+            // if the first item is selected you cannot move up
+            else if (queueList.SelectedIndices.Contains(0))
+                return;
+
+            else
+            {
+                // set undo poin
+                UndoBranch.Add(queueList.Items.Cast<string>().ToList());
+                List<int> SelectedIndecies = queueList.SelectedIndices.Cast<int>().ToList();
+
+                // loop through the selected items moving them each up
+                foreach (int from in SelectedIndecies)
+                {
+                    int to = from - 1;
+
+                    var temp = queueList.Items[to];
+
+                    queueList.Items[to] = queueList.Items[from];
+                    queueList.Items[from] = temp;
+                }
+
+                // select only the moved items
+                queueList.SetSelected(queueList.SelectedIndex, false);
+                foreach (int i in SelectedIndecies)
+                {
+                    queueList.SetSelected(i - 1, true);
+                }
             }
         }
 
@@ -231,27 +244,40 @@ namespace ApplicationInstaller
          */
         private void btnMoveDown_Click(object sender, EventArgs e)
         {
-            //Make sure the user has only selected one item
-            //If they haven't, warn them instead of doing anything.
+            //Make sure the user has at least one itme selected.
             //Make sure the item is not the last item in the list.
             //If all criteria are met, swap the item with the one below it
             if (queueList.SelectedIndices.Count < 1)
                 MessageBox.Show("WARNING:\nYou must select a queued\nitem to use this feature.");
-            else if (queueList.SelectedIndices.Count > 1)
-                MessageBox.Show("WARNING:\nOnly one queued program may be\nselected to use this feature.");
-            else if (queueList.SelectedIndex != queueList.Items.Count - 1) //Make sure this isn't the last object before we move it
+
+            // if the last item is selected you cannot move down
+            else if (queueList.SelectedIndices.Contains(queueList.Items.Count - 1))
+                return;
+
+            else
             {
-                // add an undo point
+                // set undo poin
                 UndoBranch.Add(queueList.Items.Cast<string>().ToList());
+                List<int> SelectedIndecies = queueList.SelectedIndices.Cast<int>().ToList();
 
-                int from = queueList.SelectedIndices[0];
-                int to = from++; //Get's the one beneath it
-                var temp = queueList.Items[to];
+                // loop through the selected items backwards in order to move them all down by one
+                SelectedIndecies.Reverse();
+                foreach (int from in SelectedIndecies)
+                {
+                    int to = from + 1;
 
-                queueList.Items[to] = queueList.Items[from];
-                queueList.Items[from] = temp;
-                queueList.ClearSelected();
-                queueList.SetSelected(from, true);
+                    var temp = queueList.Items[to];
+
+                    queueList.Items[to] = queueList.Items[from];
+                    queueList.Items[from] = temp;
+                }
+
+                // select only the moved items
+                queueList.SetSelected(queueList.SelectedIndex, false);
+                foreach(int i in SelectedIndecies)
+                {
+                    queueList.SetSelected(i + 1, true);
+                }
             }
         }
     }
