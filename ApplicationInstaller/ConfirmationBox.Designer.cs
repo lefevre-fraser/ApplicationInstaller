@@ -39,9 +39,9 @@
             // Action
             // 
             this.Action.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Action.Location = new System.Drawing.Point(12, 9);
+            this.Action.Location = new System.Drawing.Point(12, 2);
             this.Action.Name = "Action";
-            this.Action.Size = new System.Drawing.Size(447, 30);
+            this.Action.Size = new System.Drawing.Size(447, 39);
             this.Action.TabIndex = 0;
             this.Action.Text = "Action";
             this.Action.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -49,7 +49,7 @@
             // PackageName
             // 
             this.PackageName.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.PackageName.Location = new System.Drawing.Point(12, 39);
+            this.PackageName.Location = new System.Drawing.Point(12, 48);
             this.PackageName.Name = "PackageName";
             this.PackageName.Size = new System.Drawing.Size(447, 36);
             this.PackageName.TabIndex = 1;

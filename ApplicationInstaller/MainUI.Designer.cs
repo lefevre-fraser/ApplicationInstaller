@@ -43,9 +43,10 @@
             this.editProgramsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.removeProgramToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.selectAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.addToQueueToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.removeFromQueueToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.undoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.actionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.installQueuedListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.uninstallQueuedListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.whatAmIDoingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.reallyINeedHelpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -59,6 +60,8 @@
             this.btnuninstall = new System.Windows.Forms.Button();
             this.btnMoveUp = new System.Windows.Forms.Button();
             this.btnMoveDown = new System.Windows.Forms.Button();
+            this.removeFromQueueToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.addToQueueToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -72,6 +75,7 @@
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
             this.editToolStripMenuItem,
+            this.actionToolStripMenuItem,
             this.helpToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
@@ -176,22 +180,6 @@
             this.selectAllToolStripMenuItem.Text = "Select All";
             this.selectAllToolStripMenuItem.Click += new System.EventHandler(this.selectAllToolStripMenuItem_Click);
             // 
-            // addToQueueToolStripMenuItem
-            // 
-            this.addToQueueToolStripMenuItem.Name = "addToQueueToolStripMenuItem";
-            this.addToQueueToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Q)));
-            this.addToQueueToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
-            this.addToQueueToolStripMenuItem.Text = "Add To Queue";
-            this.addToQueueToolStripMenuItem.Click += new System.EventHandler(this.btnAddQueue_Click);
-            // 
-            // removeFromQueueToolStripMenuItem
-            // 
-            this.removeFromQueueToolStripMenuItem.Name = "removeFromQueueToolStripMenuItem";
-            this.removeFromQueueToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.R)));
-            this.removeFromQueueToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
-            this.removeFromQueueToolStripMenuItem.Text = "Remove From Queue";
-            this.removeFromQueueToolStripMenuItem.Click += new System.EventHandler(this.btnRemoveQueue_Click);
-            // 
             // undoToolStripMenuItem
             // 
             this.undoToolStripMenuItem.Name = "undoToolStripMenuItem";
@@ -199,6 +187,31 @@
             this.undoToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
             this.undoToolStripMenuItem.Text = "Undo Queue Operation";
             this.undoToolStripMenuItem.Click += new System.EventHandler(this.undoToolStripMenuItem_Click);
+            // 
+            // actionToolStripMenuItem
+            // 
+            this.actionToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.installQueuedListToolStripMenuItem,
+            this.uninstallQueuedListToolStripMenuItem});
+            this.actionToolStripMenuItem.Name = "actionToolStripMenuItem";
+            this.actionToolStripMenuItem.Size = new System.Drawing.Size(54, 20);
+            this.actionToolStripMenuItem.Text = "Action";
+            // 
+            // installQueuedListToolStripMenuItem
+            // 
+            this.installQueuedListToolStripMenuItem.Name = "installQueuedListToolStripMenuItem";
+            this.installQueuedListToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.I)));
+            this.installQueuedListToolStripMenuItem.Size = new System.Drawing.Size(228, 22);
+            this.installQueuedListToolStripMenuItem.Text = "Install Queued List";
+            this.installQueuedListToolStripMenuItem.Click += new System.EventHandler(this.btnInstall_Click);
+            // 
+            // uninstallQueuedListToolStripMenuItem
+            // 
+            this.uninstallQueuedListToolStripMenuItem.Name = "uninstallQueuedListToolStripMenuItem";
+            this.uninstallQueuedListToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.U)));
+            this.uninstallQueuedListToolStripMenuItem.Size = new System.Drawing.Size(228, 22);
+            this.uninstallQueuedListToolStripMenuItem.Text = "Uninstall Queued List";
+            this.uninstallQueuedListToolStripMenuItem.Click += new System.EventHandler(this.btnUninstall_Click);
             // 
             // helpToolStripMenuItem
             // 
@@ -212,14 +225,14 @@
             // whatAmIDoingToolStripMenuItem
             // 
             this.whatAmIDoingToolStripMenuItem.Name = "whatAmIDoingToolStripMenuItem";
-            this.whatAmIDoingToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.whatAmIDoingToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
             this.whatAmIDoingToolStripMenuItem.Text = "What am I doing?";
             this.whatAmIDoingToolStripMenuItem.Click += new System.EventHandler(this.whatAmIDoingToolStripMenuItem_Click);
             // 
             // reallyINeedHelpToolStripMenuItem
             // 
             this.reallyINeedHelpToolStripMenuItem.Name = "reallyINeedHelpToolStripMenuItem";
-            this.reallyINeedHelpToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.reallyINeedHelpToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
             this.reallyINeedHelpToolStripMenuItem.Text = "Really, I need help.";
             this.reallyINeedHelpToolStripMenuItem.Click += new System.EventHandler(this.reallyINeedHelpToolStripMenuItem_Click);
             // 
@@ -320,6 +333,22 @@
             this.btnMoveDown.UseVisualStyleBackColor = true;
             this.btnMoveDown.Click += new System.EventHandler(this.btnMoveDown_Click);
             // 
+            // removeFromQueueToolStripMenuItem
+            // 
+            this.removeFromQueueToolStripMenuItem.Name = "removeFromQueueToolStripMenuItem";
+            this.removeFromQueueToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.R)));
+            this.removeFromQueueToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
+            this.removeFromQueueToolStripMenuItem.Text = "Remove From Queue";
+            this.removeFromQueueToolStripMenuItem.Click += new System.EventHandler(this.btnRemoveQueue_Click);
+            // 
+            // addToQueueToolStripMenuItem
+            // 
+            this.addToQueueToolStripMenuItem.Name = "addToQueueToolStripMenuItem";
+            this.addToQueueToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Q)));
+            this.addToQueueToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
+            this.addToQueueToolStripMenuItem.Text = "Add To Queue";
+            this.addToQueueToolStripMenuItem.Click += new System.EventHandler(this.btnAddQueue_Click);
+            // 
             // MainUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -339,6 +368,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.MaximumSize = new System.Drawing.Size(753, 489);
+            this.MinimizeBox = false;
             this.MinimumSize = new System.Drawing.Size(753, 489);
             this.Name = "MainUI";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -373,13 +403,16 @@
         private System.Windows.Forms.Button btnMoveUp;
         private System.Windows.Forms.Button btnMoveDown;
         private System.Windows.Forms.ToolStripMenuItem selectAllToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem addToQueueToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem undoToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem addProgramToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem editProgramsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem removeProgramToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem reallyINeedHelpToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem actionToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem installQueuedListToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem uninstallQueuedListToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem addToQueueToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem removeFromQueueToolStripMenuItem;
     }
 }

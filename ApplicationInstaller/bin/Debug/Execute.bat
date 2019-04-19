@@ -10,6 +10,9 @@ echo %date% %time% >> %outfile%
 echo Now Running: %2 >> %outfile%
 echo In Directory: %1 >> %outfile%
 
+CMTrace.exe "C:\Temp\Silent\ActionLogs.log"
+CMTrace.exe "C:\Temp\Silent\RunLog.log"
+
 echo %2 | FindStr /C:".ps1"
 set ispower=%errorlevel%
 echo %2 | FindStr /C:".msi"
@@ -25,7 +28,7 @@ if %ispower% EQU 0 (
     msiexec %3 %2 /qn /norestart >> %outfile%
 ) else if %isexe% EQU 0 (
     echo EXE Execution >> %outfile%
-    start /wait "" %2
+    start /B /wait "" %2 >> %outfile%
 ) else (
     echo Regular Execution >> %outfile%
     cmd /c %2 >> %outfile%
