@@ -207,6 +207,7 @@ namespace ApplicationInstaller
                 // otherwise just add it in
                 else
                 {
+                    selectInstallList.Items.Add(Name);
                     _programs[Name] = new Program(Name, Path, Installer, Uninstaller);
                 }
             }
@@ -217,8 +218,6 @@ namespace ApplicationInstaller
                 // if name did not change just replace the old one
                 if (Name == OldPackageName)
                 {
-                    selectInstallList.Items.Add(Name);
-                    selectInstallList.Items.Remove(OldPackageName);
                     _programs[Name] = new Program(Name, Path, Installer, Uninstaller);
                 }
 
@@ -232,6 +231,7 @@ namespace ApplicationInstaller
                         "Confirm/Deny", MessageBoxButtons.YesNo);
                         if (confirm == DialogResult.Yes)
                         {
+                            selectInstallList.Items.Remove(OldPackageName);
                             _programs.Remove(OldPackageName);
                             _programs[Name] = new Program(Name, Path, Installer, Uninstaller);
                         }
@@ -244,6 +244,8 @@ namespace ApplicationInstaller
                     // otherwise just overwrite it
                     else
                     {
+                        selectInstallList.Items.Add(Name);
+                        selectInstallList.Items.Remove(OldPackageName);
                         _programs.Remove(OldPackageName);
                         _programs[Name] = new Program(Name, Path, Installer, Uninstaller);
                     }
